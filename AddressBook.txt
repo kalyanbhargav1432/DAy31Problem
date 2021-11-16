@@ -190,6 +190,29 @@ mysql> select * from addressbook;
 +-----------+----------+-----------+----------------+---------------+--------+--------------+------------------------------+
 4 rows in set (0.00 sec)
 
+mysql> #Uc10-Ability to get number of contact persons i.e. count by type.
+
+mysql> select * from addressbook;
++-----------+-----------------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| firstname | addressBookname | lastname | type      | address   | city           | state         | zip    | mobilenumber | email                        |
++-----------+-----------------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| kalyan    | addressbook1    | tanniru  | friends   | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com  |
+| bhargav   | addressbook2    | tanniru  | relatives | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
+| durga     | addressbook3    | tanniru  | friends   | 12-1232/1 | priyapatnam    | Mysore        | 522616 | 9642503545   | durga1432@gmail.com          |
+| simran    | addressbook4    | tanniru  | family    | 12-1231   | rangareddy     | Telangana     | 522446 | 9642503345   | simran1432@gmail.com         |
++-----------+-----------------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select type,count(type) from addressbook group by type;
++-----------+-------------+
+| type      | count(type) |
++-----------+-------------+
+| friends   |           2 |
+| relatives |           1 |
+| family    |           1 |
++-----------+-------------+
+3 rows in set (0.00 sec)
+
 mysql> alter table addressbook add type varchar(150) not null after lastname;
 Query OK, 0 rows affected (2.68 sec)
 Records: 0  Duplicates: 0  Warnings: 0
