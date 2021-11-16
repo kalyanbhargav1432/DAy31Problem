@@ -1,0 +1,17 @@
+mysql> #UC1:Create database AddressBook service.
+mysql> create database addressbook_service;
+Query OK, 1 row affected (0.19 sec)
+
+mysql> show databases;
++---------------------+
+| Database            |
++---------------------+
+| addressbook_service |
+| information_schema  |
+| mysql               |
+| performance_schema  |
+| sakila              |
+| sys                 |
+| world               |
++---------------------+
+7 rows in set (0.03 sec)
