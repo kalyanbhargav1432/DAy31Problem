@@ -1,4 +1,5 @@
 mysql> #UC1:Create database AddressBook service.
+
 mysql> create database addressbook_service;
 Query OK, 1 row affected (0.19 sec)
 
@@ -15,7 +16,9 @@ mysql> show databases;
 | world               |
 +---------------------+
 7 rows in set (0.03 sec)
+
 mysql> #UC2:Create addressbook table.
+
 mysql> use addressbook_service;
 Database changed
 mysql> select database();
@@ -64,6 +67,7 @@ mysql> select database();
 1 row in set (0.00 sec)
 
 mysql> #UC3:Insert new contacts in AddressBook table.
+
 mysql> insert into addressbook ( firstname, lastname, address, city, state, zip, mobilenumber,email) values
     -> ( 'kalyan', 'tanniru', '12-1234/1', 'Guntur', 'Andhrapradesh','522616', '9182169100', 'tannirukalyan1432@gmail.com'),
     -> ( 'bhargav', 'tanniru', '12-1234/1', 'Guntur', 'Andhrapradesh','522616', '9642502811', 'tannirubhargav1432@gmail.com');
@@ -78,3 +82,18 @@ mysql> select * from addressbook;
 | bhargav   | tanniru  | 12-1234/1 | Guntur | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
 +-----------+----------+-----------+--------+---------------+--------+--------------+------------------------------+
 2 rows in set (0.02 sec)
+
+mysql>  #UC4:Edit contact details using their name.
+
+mysql> update addressbook set city = 'chilakaluripet' where firstname = 'kalyan';
+Query OK, 1 row affected (0.13 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from addressbook;
++-----------+----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| firstname | lastname | address   | city           | state         | zip    | mobilenumber | email                        |
++-----------+----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| kalyan    | tanniru  | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com  |
+| bhargav   | tanniru  | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
++-----------+----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+2 rows in set (0.01 sec)
