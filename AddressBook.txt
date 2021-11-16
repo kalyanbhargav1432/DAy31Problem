@@ -176,3 +176,107 @@ mysql> select * from addressbook where city = 'chilakaluripet' order by firstnam
 | kalyan    | tanniru  | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com |
 +-----------+----------+-----------+----------------+---------------+--------+--------------+-----------------------------+
 1 row in set (0.00 sec)
+
+mysql> #Uc9-Ability to identify each Address Book with name and Type.
+
+mysql> select * from addressbook;
++-----------+----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| firstname | lastname | address   | city           | state         | zip    | mobilenumber | email                        |
++-----------+----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| kalyan    | tanniru  | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com  |
+| bhargav   | tanniru  | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
+| durga     | tanniru  | 12-1232/1 | priyapatnam    | Mysore        | 522616 | 9642503545   | durga1432@gmail.com          |
+| simran    | tanniru  | 12-1231   | rangareddy     | Telangana     | 522446 | 9642503345   | simran1432@gmail.com         |
++-----------+----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table addressbook add type varchar(150) not null after lastname;
+Query OK, 0 rows affected (2.68 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from addressbook;
++-----------+----------+------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| firstname | lastname | type | address   | city           | state         | zip    | mobilenumber | email                        |
++-----------+----------+------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| kalyan    | tanniru  |      | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com  |
+| bhargav   | tanniru  |      | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
+| durga     | tanniru  |      | 12-1232/1 | priyapatnam    | Mysore        | 522616 | 9642503545   | durga1432@gmail.com          |
+| simran    | tanniru  |      | 12-1231   | rangareddy     | Telangana     | 522446 | 9642503345   | simran1432@gmail.com         |
++-----------+----------+------+-----------+----------------+---------------+--------+--------------+------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> update addressbook set type = 'family' where firstname = 'kalyan' or firstname = 'simran';
+Query OK, 2 rows affected (0.09 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from addressbook;
++-----------+----------+--------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| firstname | lastname | type   | address   | city           | state         | zip    | mobilenumber | email                        |
++-----------+----------+--------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| kalyan    | tanniru  | family | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com  |
+| bhargav   | tanniru  |        | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
+| durga     | tanniru  |        | 12-1232/1 | priyapatnam    | Mysore        | 522616 | 9642503545   | durga1432@gmail.com          |
+| simran    | tanniru  | family | 12-1231   | rangareddy     | Telangana     | 522446 | 9642503345   | simran1432@gmail.com         |
++-----------+----------+--------+-----------+----------------+---------------+--------+--------------+------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> update addressbook set type = 'friends' where firstname = 'kalyan' or firstname = 'durga';
+Query OK, 2 rows affected (0.08 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from addressbook;
++-----------+----------+---------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| firstname | lastname | type    | address   | city           | state         | zip    | mobilenumber | email                        |
++-----------+----------+---------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| kalyan    | tanniru  | friends | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com  |
+| bhargav   | tanniru  |         | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
+| durga     | tanniru  | friends | 12-1232/1 | priyapatnam    | Mysore        | 522616 | 9642503545   | durga1432@gmail.com          |
+| simran    | tanniru  | family  | 12-1231   | rangareddy     | Telangana     | 522446 | 9642503345   | simran1432@gmail.com         |
++-----------+----------+---------+-----------+----------------+---------------+--------+--------------+------------------------------+
+4 rows in set (0.00 sec)
+
+mysql> update addressbook set type = 'relatives' where firstname = 'bhargav';
+Query OK, 1 row affected (0.14 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from addressbook;
++-----------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| firstname | lastname | type      | address   | city           | state         | zip    | mobilenumber | email                        |
++-----------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| kalyan    | tanniru  | friends   | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com  |
+| bhargav   | tanniru  | relatives | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
+| durga     | tanniru  | friends   | 12-1232/1 | priyapatnam    | Mysore        | 522616 | 9642503545   | durga1432@gmail.com          |
+| simran    | tanniru  | family    | 12-1231   | rangareddy     | Telangana     | 522446 | 9642503345   | simran1432@gmail.com         |
++-----------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+4 rows in set (0.02 sec)
+
+mysql> alter table addressbook add addressBookname varchar(150) not null after firstname;
+Query OK, 0 rows affected (2.50 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update addressbook set addressBookname = 'addressbook1' where firstname = 'kalyan';
+Query OK, 1 row affected (0.13 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update addressbook set addressBookname = 'addressbook2' where firstname = 'bhargav';
+Query OK, 1 row affected (0.20 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update addressbook set addressBookname = 'addressbook3' where firstname = 'durga';
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update addressbook set addressBookname = 'addressbook4' where firstname = 'simran';
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *from addressbook;
++-----------+-----------------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| firstname | addressBookname | lastname | type      | address   | city           | state         | zip    | mobilenumber | email                        |
++-----------+-----------------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| kalyan    | addressbook1    | tanniru  | friends   | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com  |
+| bhargav   | addressbook2    | tanniru  | relatives | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
+| durga     | addressbook3    | tanniru  | friends   | 12-1232/1 | priyapatnam    | Mysore        | 522616 | 9642503545   | durga1432@gmail.com          |
+| simran    | addressbook4    | tanniru  | family    | 12-1231   | rangareddy     | Telangana     | 522446 | 9642503345   | simran1432@gmail.com         |
++-----------+-----------------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+4 rows in set (0.00 sec)
