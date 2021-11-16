@@ -155,3 +155,24 @@ mysql> select city,count(city) from addressbook group by city;
 | rangareddy     |           1 |
 +----------------+-------------+
 4 rows in set (0.00 sec)
+
+mysql> #Uc8-Ability to retrieve entries sorted alphabetically by Person’s name for a given city.
+
+mysql> select * from addressbook order by firstname;
++-----------+----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| firstname | lastname | address   | city           | state         | zip    | mobilenumber | email                        |
++-----------+----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+| bhargav   | tanniru  | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
+| durga     | tanniru  | 12-1232/1 | priyapatnam    | Mysore        | 522616 | 9642503545   | durga1432@gmail.com          |
+| kalyan    | tanniru  | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com  |
+| simran    | tanniru  | 12-1231   | rangareddy     | Telangana     | 522446 | 9642503345   | simran1432@gmail.com         |
++-----------+----------+-----------+----------------+---------------+--------+--------------+------------------------------+
+4 rows in set (0.02 sec)
+
+mysql> select * from addressbook where city = 'chilakaluripet' order by firstname;
++-----------+----------+-----------+----------------+---------------+--------+--------------+-----------------------------+
+| firstname | lastname | address   | city           | state         | zip    | mobilenumber | email                       |
++-----------+----------+-----------+----------------+---------------+--------+--------------+-----------------------------+
+| kalyan    | tanniru  | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com |
++-----------+----------+-----------+----------------+---------------+--------+--------------+-----------------------------+
+1 row in set (0.00 sec)
