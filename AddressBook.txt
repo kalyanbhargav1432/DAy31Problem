@@ -97,3 +97,16 @@ mysql> select * from addressbook;
 | bhargav   | tanniru  | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
 +-----------+----------+-----------+----------------+---------------+--------+--------------+------------------------------+
 2 rows in set (0.01 sec)
+
+mysql> #UC5-Delete a Person using persons name.
+
+mysql> delete from addressbook where firstname = 'bhargav';
+Query OK, 1 row affected (0.08 sec)
+
+mysql> select * from addressbook;
++-----------+----------+-----------+----------------+---------------+--------+--------------+-----------------------------+
+| firstname | lastname | address   | city           | state         | zip    | mobilenumber | email                       |
++-----------+----------+-----------+----------------+---------------+--------+--------------+-----------------------------+
+| kalyan    | tanniru  | 12-1234/1 | chilakaluripet | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com |
++-----------+----------+-----------+----------------+---------------+--------+--------------+-----------------------------+
+1 row in set (0.07 sec)
