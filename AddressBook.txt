@@ -53,3 +53,28 @@ mysql>  describe addressbook;
 | email        | varchar(150) | NO   |     | NULL    |       |
 +--------------+--------------+------+-----+---------+-------+
 8 rows in set (0.16 sec)
+mysql> use addressbook_service;
+Database changed
+mysql> select database();
++---------------------+
+| database()          |
++---------------------+
+| addressbook_service |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> #UC3:Insert new contacts in AddressBook table.
+mysql> insert into addressbook ( firstname, lastname, address, city, state, zip, mobilenumber,email) values
+    -> ( 'kalyan', 'tanniru', '12-1234/1', 'Guntur', 'Andhrapradesh','522616', '9182169100', 'tannirukalyan1432@gmail.com'),
+    -> ( 'bhargav', 'tanniru', '12-1234/1', 'Guntur', 'Andhrapradesh','522616', '9642502811', 'tannirubhargav1432@gmail.com');
+Query OK, 2 rows affected (0.13 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from addressbook;
++-----------+----------+-----------+--------+---------------+--------+--------------+------------------------------+
+| firstname | lastname | address   | city   | state         | zip    | mobilenumber | email                        |
++-----------+----------+-----------+--------+---------------+--------+--------------+------------------------------+
+| kalyan    | tanniru  | 12-1234/1 | Guntur | Andhrapradesh | 522616 | 9182169100   | tannirukalyan1432@gmail.com  |
+| bhargav   | tanniru  | 12-1234/1 | Guntur | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
++-----------+----------+-----------+--------+---------------+--------+--------------+------------------------------+
+2 rows in set (0.02 sec)
