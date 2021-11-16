@@ -317,7 +317,7 @@ mysql> select * from addressbook;
 | bhargav   | addressbook2    | tanniru  | relatives | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
 | durga     | addressbook3    | tanniru  | friends   | 12-1232/1 | priyapatnam    | Mysore        | 522616 | 9642503545   | durga1432@gmail.com          |
 | simran    | addressbook4    | tanniru  | family    | 12-1231   | rangareddy     | Telangana     | 522446 | 9642503345   | simran1432@gmail.com         |
-| jahan     | addressbook5             | shaik    | friends   | 12-2245   | chilakaluripet | Andhrapradesh | 522532 | 9124352109   | tbdk@gmail.com               |
+| jahan     | addressbook5    | shaik    | friends   | 12-2245   | chilakaluripet | Andhrapradesh | 522532 | 9124352109   | tbdk@gmail.com               |
 +-----------+-----------------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
 5 rows in set (0.02 sec)
 
@@ -333,7 +333,7 @@ mysql> select * from addressbook;
 | bhargav   | addressbook2    | tanniru  | relatives | 12-1234/1 | Guntur         | Andhrapradesh | 522616 | 9642502811   | tannirubhargav1432@gmail.com |
 | durga     | addressbook3    | tanniru  | friends   | 12-1232/1 | priyapatnam    | Mysore        | 522616 | 9642503545   | durga1432@gmail.com          |
 | simran    | addressbook4    | tanniru  | family    | 12-1231   | rangareddy     | Telangana     | 522446 | 9642503345   | simran1432@gmail.com         |
-| jahan     | addressbook5             | shaik    | friends   | 12-2245   | chilakaluripet | Andhrapradesh | 522532 | 9124352109   | tbdk@gmail.com               |
-| jahan     | addressbook6             | shaik    | family    | 12-2245   | chilakaluripet | Andhrapradesh | 522532 | 9124352109   | tbdk@gmail.com               |
+| jahan     | addressbook5    | shaik    | friends   | 12-2245   | chilakaluripet | Andhrapradesh | 522532 | 9124352109   | tbdk@gmail.com               |
+| jahan     | addressbook6    | shaik    | family    | 12-2245   | chilakaluripet | Andhrapradesh | 522532 | 9124352109   | tbdk@gmail.com               |
 +-----------+-----------------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
 6 rows in set (0.00 sec)
