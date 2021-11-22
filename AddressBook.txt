@@ -338,430 +338,289 @@ mysql> select * from addressbook;
 +-----------+-----------------+----------+-----------+-----------+----------------+---------------+--------+--------------+------------------------------+
 6 rows in set (0.00 sec)
 
-mysql> Uc12:Apply 2NF on addressbook.
+mysql> #Uc13-Ensure all retrieve queries done especially in UC 6, UC 7, UC 8 and UC 10 are working with new table structure.
 
-mysql> create table contact(contact_id int not null,primary key(contact_id));
-Query OK, 0 rows affected (1.40 sec)
+mysql> create database addressbook_Normalization;
+Query OK, 1 row affected (0.27 sec)
 
-mysql> insert into contact (contact_id)values(1);
-Query OK, 1 row affected (0.14 sec)
+mysql> show databases;
++---------------------------+
+| Database                  |
++---------------------------+
+| addressbook_normalization |
+| addressbook_service       |
+| employee_payroll          |
+| information_schema        |
+| mysql                     |
+| payroll_service           |
+| performance_schema        |
+| sakila                    |
+| sys                       |
+| world                     |
++---------------------------+
+10 rows in set (0.03 sec)
 
-mysql>  insert into contact (contact_id)values(2);
-Query OK, 1 row affected (0.11 sec)
+mysql> use addressbook_Normalization;
+Database changed
+mysql>  create table contact_type(type_id int not null auto_increment,type_name varchar(250),PRIMARY KEY(type_id));
+Query OK, 0 rows affected (3.67 sec)
 
-mysql>  insert into contact (contact_id)values(3);
-Query OK, 1 row affected (0.08 sec)
+mysql>  describe contact_type;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| type_id   | int          | NO   | PRI | NULL    | auto_increment |
+| type_name | varchar(250) | YES  |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+2 rows in set (0.10 sec)
 
-mysql>  insert into contact (contact_id)values(4);
-Query OK, 1 row affected (0.11 sec)
+mysql>  insert into contact_type (type_name) values
+    -> ('friends'),
+    -> ('family'),
+    -> ('profession');
+Query OK, 3 rows affected (0.33 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 
-mysql>  insert into contact (contact_id)values(5);
-Query OK, 1 row affected (0.10 sec)
+mysql> select * from contact_type;
++---------+------------+
+| type_id | type_name  |
++---------+------------+
+|       1 | friends    |
+|       2 | family     |
+|       3 | profession |
++---------+------------+
+3 rows in set (0.02 sec)
 
-mysql>  insert into contact (contact_id)values(6);
-Query OK, 1 row affected (0.10 sec)
+mysql> create table addressbook(addressbook_id int not null auto_increment,addressbook_name varchar(250),PRIMARY KEY(addressbook_id));
+Query OK, 0 rows affected (2.01 sec)
 
-mysql> select * from contact;
-+------------+
-| contact_id |
-+------------+
-|          1 |
-|          2 |
-|          3 |
-|          4 |
-|          5 |
-|          6 |
-+------------+
-6 rows in set (0.00 sec)
-mysql> describe email;
-+------------+---------------+------+-----+---------+-------+
-| Field      | Type          | Null | Key | Default | Extra |
-+------------+---------------+------+-----+---------+-------+
-| email_id   | decimal(10,0) | NO   | PRI | NULL    |       |
-| email      | varchar(150)  | NO   |     | NULL    |       |
-| contact_id | decimal(10,0) | YES  |     | NULL    |       |
-+------------+---------------+------+-----+---------+-------+
-3 rows in set (0.07 sec)
-mysql> insert into email(email_id,email,contact_id)values(1,'tannirukalyan@gmail.com',1);
-Query OK, 1 row affected (0.12 sec)
+mysql>  drop table addressbook;
+Query OK, 0 rows affected (1.26 sec)
 
-mysql> insert into email(email_id,email,contact_id)values(2,'tannirubhargav@gmail.com',2);
-Query OK, 1 row affected (0.17 sec)
+mysql>  create table person(person_id int not null auto_increment,first_name varchar(250),last_name varchar(250), PRIMARY KEY(person_id));
+Query OK, 0 rows affected (1.43 sec)
 
-mysql> insert into email(email_id,email,contact_id)values(3,'tannirusimran@gmail.com',3);
-Query OK, 1 row affected (0.08 sec)
+mysql> insert into person (first_name, last_name) values('tanniru','kalyan'),('tanniru','bhargav'),('tanniru','durga');
+Query OK, 3 rows affected (0.18 sec)
+Records: 3  Duplicates: 0  Warnings: 0
 
-mysql> insert into email(email_id,email,contact_id)values(4,'tannirujahan@gmail.com',4);
-Query OK, 1 row affected (0.08 sec)
+mysql> select * from person;
++-----------+------------+-----------+
+| person_id | first_name | last_name |
++-----------+------------+-----------+
+|         1 | tanniru    | kalyan    |
+|         2 | tanniru    | bhargav   |
+|         3 | tanniru    | durga     |
++-----------+------------+-----------+
+3 rows in set (0.02 sec)
 
-mysql> insert into email(email_id,email,contact_id)values(5,'tannirudurga@gmail.com',5);
-Query OK, 1 row affected (0.12 sec)
+mysql> insert into person (first_name, last_name) values('tanniru','jahan'),('tanniru','simran');
+Query OK, 2 rows affected (0.22 sec)
+Records: 2  Duplicates: 0  Warnings: 0
 
-mysql> insert into email(email_id,email,contact_id)values(6,'tanniruabc@gmail.com',6);
-Query OK, 1 row affected (0.15 sec)
+mysql> select * from person;
++-----------+------------+-----------+
+| person_id | first_name | last_name |
++-----------+------------+-----------+
+|         1 | tanniru    | kalyan    |
+|         2 | tanniru    | bhargav   |
+|         3 | tanniru    | durga     |
+|         4 | tanniru    | jahan     |
+|         5 | tanniru    | simran    |
++-----------+------------+-----------+
+5 rows in set (0.00 sec)
 
-mysql> select * from email inner join  contact on email.contact_id = contact.contact_id;
-+----------+--------------------------+------------+------------+
-| email_id | email                    | contact_id | contact_id |
-+----------+--------------------------+------------+------------+
-|        1 | tannirukalyan@gmail.com  |          1 |          1 |
-|        2 | tannirubhargav@gmail.com |          2 |          2 |
-|        3 | tannirusimran@gmail.com  |          3 |          3 |
-|        4 | tannirujahan@gmail.com   |          4 |          4 |
-|        5 | tannirudurga@gmail.com   |          5 |          5 |
-|        6 | tanniruabc@gmail.com     |          6 |          6 |
-+----------+--------------------------+------------+------------+
-6 rows in set (0.02 sec)
+mysql> create table person_type(person_id int, type_id int,FOREIGN KEY(type_id) REFERENCES contact_type(type_id),FOREIGN KEY(person_id) REFERENCES person(person_id));
+Query OK, 0 rows affected (3.02 sec)
 
-mysql> create table phone
-    -> (phone_id numeric not null, phone numeric not null,contact_id numeric references contact(contact_id),primary key(phone_id));
-Query OK, 0 rows affected (1.93 sec)
+mysql> insert into person_type(person_id, type_id) values(1, 3),(2, 1),(3, 2),(4, 1),(5, 3);
+Query OK, 5 rows affected (0.22 sec)
+Records: 5  Duplicates: 0  Warnings: 0
 
-mysql> insert into phone(phone_id,phone,contact_id)values(1,9182169100,1);
-Query OK, 1 row affected (0.17 sec)
+mysql> select * from person_type;
++-----------+---------+
+| person_id | type_id |
++-----------+---------+
+|         1 |       3 |
+|         2 |       1 |
+|         3 |       2 |
+|         4 |       1 |
+|         5 |       3 |
++-----------+---------+
+5 rows in set (0.00 sec)
 
-mysql> insert into phone(phone_id,phone,contact_id)values(2,9642502811,2);
-Query OK, 1 row affected (0.21 sec)
+mysql>  create table person_details(person_id int,address varchar(250),city varchar(250),state varchar(250),zip varchar(250),phonenumber varchar(250));
+Query OK, 0 rows affected (1.18 sec)
 
-mysql> insert into phone(phone_id,phone,contact_id)values(3,9642502451,3);
-Query OK, 1 row affected (0.07 sec)
+mysql> insert into person_details(person_id, address, city, state, zip, phonenumber) values(1,'12-1234','guntur','Andhrapradesh','522616','9182169100'),(2,'23-1234','kanyakumari','Tamilnadu','656857','9356886467'),(3,'0-3322','mysore','Karnataka','522455','9642502811'),(4,'6344','kochi','Kerala','643834','9195372892'),(5,'12-1221','hyderabad','Telangana','522334','9182163400');
+Query OK, 5 rows affected (0.18 sec)
+Records: 5  Duplicates: 0  Warnings: 0
 
-mysql> insert into phone(phone_id,phone,contact_id)values(4,9934250245,4);
-Query OK, 1 row affected (0.12 sec)
+mysql> select * from person_details;
++-----------+---------+-------------+---------------+--------+-------------+
+| person_id | address | city        | state         | zip    | phonenumber |
++-----------+---------+-------------+---------------+--------+-------------+
+|         1 | 12-1234 | guntur      | Andhrapradesh | 522616 | 9182169100  |
+|         2 | 23-1234 | kanyakumari | Tamilnadu     | 656857 | 9356886467  |
+|         3 | 0-3322  | mysore      | Karnataka     | 522455 | 9642502811  |
+|         4 | 6344    | kochi       | Kerala        | 643834 | 9195372892  |
+|         5 | 12-1221 | hyderabad   | Telangana     | 522334 | 9182163400  |
++-----------+---------+-------------+---------------+--------+-------------+
+5 rows in set (0.03 sec)
 
-mysql> insert into phone(phone_id,phone,contact_id)values(5,9934257655,5);
-Query OK, 1 row affected (0.10 sec)
+mysql>  use addressbook_normalization;
+Database changed
+mysql>  show tables;
++-------------------------------------+
+| Tables_in_addressbook_normalization |
++-------------------------------------+
+| contact_type                        |
+| person                              |
+| person_details                      |
+| person_type                         |
++-------------------------------------+
+4 rows in set (0.10 sec)
 
-mysql> insert into phone(phone_id,phone,contact_id)values(6,9934287732,6);
-Query OK, 1 row affected (0.12 sec)
+mysql> select * from person;
++-----------+------------+-----------+
+| person_id | first_name | last_name |
++-----------+------------+-----------+
+|         1 | tanniru    | kalyan    |
+|         2 | tanniru    | bhargav   |
+|         3 | tanniru    | durga     |
+|         4 | tanniru    | jahan     |
+|         5 | tanniru    | simran    |
++-----------+------------+-----------+
+5 rows in set (0.06 sec)
 
-mysql> select * from phone;
-+----------+------------+------------+
-| phone_id | phone      | contact_id |
-+----------+------------+------------+
-|        1 | 9182169100 |          1 |
-|        2 | 9642502811 |          2 |
-|        3 | 9642502451 |          3 |
-|        4 | 9934250245 |          4 |
-|        5 | 9934257655 |          5 |
-|        6 | 9934287732 |          6 |
-+----------+------------+------------+
-6 rows in set (0.00 sec)
-mysql>  create table address(address_id numeric NOT NULL,address varchar(150) NOT NULL,city_id numeric references city(city_id),state_id numeric references state(state_id),contact_id numeric  references contact(contact_id),primary key(address_id));
-Query OK, 0 rows affected (2.18 sec)
+mysql> select * from person_details;
++-----------+---------+-------------+---------------+--------+-------------+
+| person_id | address | city        | state         | zip    | phonenumber |
++-----------+---------+-------------+---------------+--------+-------------+
+|         1 | 12-1234 | guntur      | Andhrapradesh | 522616 | 9182169100  |
+|         2 | 23-1234 | kanyakumari | Tamilnadu     | 656857 | 9356886467  |
+|         3 | 0-3322  | mysore      | Karnataka     | 522455 | 9642502811  |
+|         4 | 6344    | kochi       | Kerala        | 643834 | 9195372892  |
+|         5 | 12-1221 | hyderabad   | Telangana     | 522334 | 9182163400  |
++-----------+---------+-------------+---------------+--------+-------------+
+5 rows in set (0.00 sec)
 
-mysql> create table city(city_id numeric NOT NULL,city_name varchar(50) NOT NULL,state_id numeric references state(state_id),primary key (city_id));
-Query OK, 0 rows affected (1.09 sec)
+mysql> select * from contact_type;
++---------+------------+
+| type_id | type_name  |
++---------+------------+
+|       1 | friends    |
+|       2 | family     |
+|       3 | profession |
++---------+------------+
+3 rows in set (0.03 sec)
 
-mysql>  create table state(state_id numeric NOT NULL, state_name  varchar(50) NOT NULL);
-Query OK, 0 rows affected (0.91 sec)
-
-mysql>  insert into state(state_id,state_name)values(1,'Andhrapradesh');
-Query OK, 1 row affected (0.14 sec)
-
-mysql>  insert into state(state_id,state_name)values(2,'telangana');
-Query OK, 1 row affected (0.15 sec)
-
-mysql>  insert into state(state_id,state_name)values(3,'tamilnadu');
-Query OK, 1 row affected (0.11 sec)
-
-mysql>  insert into state(state_id,state_name)values(4,'kerala');
-Query OK, 1 row affected (0.16 sec)
-
-mysql>  insert into state(state_id,state_name)values(5,'maharashtra');
-Query OK, 1 row affected (0.06 sec)
-
-mysql>  insert into state(state_id,state_name)values(6,'karnataka');
-Query OK, 1 row affected (0.14 sec)
-
-mysql> alter table  state modify state_id numeric not null primary key;
-Query OK, 0 rows affected (2.60 sec)
-Records: 0  Duplicates: 0  Warnings: 0
-
-mysql> select * from state;
-+----------+---------------+
-| state_id | state_name    |
-+----------+---------------+
-|        1 | Andhrapradesh |
-|        2 | telangana     |
-|        3 | tamilnadu     |
-|        4 | kerala        |
-|        5 | maharashtra   |
-|        6 | karnataka     |
-+----------+---------------+
-6 rows in set (0.03 sec)
-
-mysql> describe city;
-+-----------+---------------+------+-----+---------+-------+
-| Field     | Type          | Null | Key | Default | Extra |
-+-----------+---------------+------+-----+---------+-------+
-| city_id   | decimal(10,0) | NO   | PRI | NULL    |       |
-| city_name | varchar(50)   | NO   |     | NULL    |       |
-| state_id  | decimal(10,0) | YES  |     | NULL    |       |
-+-----------+---------------+------+-----+---------+-------+
-3 rows in set (0.14 sec)
-
-mysql> insert into city(city_id,city_name,state_id)values(1,'guntur',1);
-Query OK, 1 row affected (0.18 sec)
-
-mysql> insert into city(city_id,city_name,state_id)values(2,'hyderabad',2);
-Query OK, 1 row affected (0.15 sec)
-
-mysql> insert into city(city_id,city_name,state_id)values(3,'trivandram',3);
-Query OK, 1 row affected (0.12 sec)
-
-mysql> insert into city(city_id,city_name,state_id)values(4,'kochi',4);
-Query OK, 1 row affected (0.12 sec)
-
-mysql> insert into city(city_id,city_name,state_id)values(5,'thane',5);
-Query OK, 1 row affected (0.07 sec)
-
-mysql> insert into city(city_id,city_name,state_id)values(6,'mysore',6);
-Query OK, 1 row affected (0.15 sec)
-
-mysql> select * from state;
-+----------+---------------+
-| state_id | state_name    |
-+----------+---------------+
-|        1 | Andhrapradesh |
-|        2 | telangana     |
-|        3 | tamilnadu     |
-|        4 | kerala        |
-|        5 | maharashtra   |
-|        6 | karnataka     |
-+----------+---------------+
-6 rows in set (0.02 sec)
-
-mysql> select * from city;
-+---------+------------+----------+
-| city_id | city_name  | state_id |
-+---------+------------+----------+
-|       1 | guntur     |        1 |
-|       2 | hyderabad  |        2 |
-|       3 | trivandram |        3 |
-|       4 | kochi      |        4 |
-|       5 | thane      |        5 |
-|       6 | mysore     |        6 |
-+---------+------------+----------+
-6 rows in set (0.02 sec)
-
-mysql> select * from phone;
-+----------+------------+------------+
-| phone_id | phone      | contact_id |
-+----------+------------+------------+
-|        1 | 9182169100 |          1 |
-|        2 | 9642502811 |          2 |
-|        3 | 9642502451 |          3 |
-|        4 | 9934250245 |          4 |
-|        5 | 9934257655 |          5 |
-|        6 | 9934287732 |          6 |
-+----------+------------+------------+
-6 rows in set (0.03 sec)
-
-mysql> create table addressbook_type(addressbook_id numeric NOT NULL ,addressbook varchar(150) NOT NULL, PRIMARY KEY (addressbook_id));
-Query OK, 0 rows affected (1.59 sec)
-
-mysql>  insert into addressbook_type(addressbook_id,addressbook)values(1,'addressbook1');
-Query OK, 1 row affected (0.13 sec)
-
-mysql>  insert into addressbook_type(addressbook_id,addressbook)values(2,'addressbook2');
-Query OK, 1 row affected (0.14 sec)
-
-mysql>  insert into addressbook_type(addressbook_id,addressbook)values(3,'addressbook3');
-Query OK, 1 row affected (0.07 sec)
-
-mysql> create table person(person_id numeric not null,firstname varchar(50) not null,lastname varchar(50) not null, type varchar(50) not null,contact_id numeric  references contact(contact_id),addressbook_id  numeric references addressbook_type(addressbook_id),primary key(person_id));
-Query OK, 0 rows affected (0.70 sec)
+mysql> select * from person_type;
++-----------+---------+
+| person_id | type_id |
++-----------+---------+
+|         1 |       3 |
+|         2 |       1 |
+|         3 |       2 |
+|         4 |       1 |
+|         5 |       3 |
++-----------+---------+
+5 rows in set (0.03 sec)
 
 mysql> describe person;
-+----------------+---------------+------+-----+---------+-------+
-| Field          | Type          | Null | Key | Default | Extra |
-+----------------+---------------+------+-----+---------+-------+
-| person_id      | decimal(10,0) | NO   | PRI | NULL    |       |
-| firstname      | varchar(50)   | NO   |     | NULL    |       |
-| lastname       | varchar(50)   | NO   |     | NULL    |       |
-| type           | varchar(50)   | NO   |     | NULL    |       |
-| contact_id     | decimal(10,0) | YES  |     | NULL    |       |
-| addressbook_id | decimal(10,0) | YES  |     | NULL    |       |
-+----------------+---------------+------+-----+---------+-------+
-6 rows in set (0.12 sec)
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| person_id  | int          | NO   | PRI | NULL    | auto_increment |
+| first_name | varchar(250) | YES  |     | NULL    |                |
+| last_name  | varchar(250) | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.02 sec)
 
-mysql> insert into person(person_id,firstname,lastname,type,contact_id,addressbook_id)values(1,'kalyan','tanniru','Friends',1,1);
-Query OK, 1 row affected (0.14 sec)
+mysql> insert into person_type (person_id, type_id) values(1,2),(2,3);
+Query OK, 2 rows affected (0.18 sec)
+Records: 2  Duplicates: 0  Warnings: 0
 
-mysql> insert into person(person_id,firstname,lastname,type,contact_id,addressbook_id)values(2,'bhargav','tanniru','Family',2,2);
-Query OK, 1 row affected (0.12 sec)
+mysql>  select * from person_type;
++-----------+---------+
+| person_id | type_id |
++-----------+---------+
+|         1 |       3 |
+|         2 |       1 |
+|         3 |       2 |
+|         4 |       1 |
+|         5 |       3 |
+|         1 |       2 |
+|         2 |       3 |
++-----------+---------+
+7 rows in set (0.02 sec)
 
-mysql> insert into person(person_id,firstname,lastname,type,contact_id,addressbook_id)values(3,'simran','tanniru','relatives',3,3);
-Query OK, 1 row affected (0.13 sec)
+mysql> select person.person_id,person_type. person_id from person INNER JOIN person_type on person.person_id=person_type.person_id;
++-----------+-----------+
+| person_id | person_id |
++-----------+-----------+
+|         1 |         1 |
+|         1 |         1 |
+|         2 |         2 |
+|         2 |         2 |
+|         3 |         3 |
+|         4 |         4 |
+|         5 |         5 |
++-----------+-----------+
+7 rows in set (0.04 sec)
 
-mysql> insert into person(person_id,firstname,lastname,type,contact_id,addressbook_id)values(4,'jahan','shaik','profession',4,1);
-Query OK, 1 row affected (0.11 sec)
+mysql> select person.person_id,person_type. type_id from person INNER JOIN person_type on person.person_id=person_type.person_id;
++-----------+---------+
+| person_id | type_id |
++-----------+---------+
+|         1 |       3 |
+|         1 |       2 |
+|         2 |       1 |
+|         2 |       3 |
+|         3 |       2 |
+|         4 |       1 |
+|         5 |       3 |
++-----------+---------+
+7 rows in set (0.00 sec)
 
-mysql> insert into person(person_id,firstname,lastname,type,contact_id,addressbook_id)values(5,'saniya','shaik','classmate',5,2);
-Query OK, 1 row affected (0.10 sec)
+mysql>  select * from person_details;
++-----------+---------+-------------+---------------+--------+-------------+
+| person_id | address | city        | state         | zip    | phonenumber |
++-----------+---------+-------------+---------------+--------+-------------+
+|         1 | 12-1234 | guntur      | Andhrapradesh | 522616 | 9182169100  |
+|         2 | 23-1234 | kanyakumari | Tamilnadu     | 656857 | 9356886467  |
+|         3 | 0-3322  | mysore      | Karnataka     | 522455 | 9642502811  |
+|         4 | 6344    | kochi       | Kerala        | 643834 | 9195372892  |
+|         5 | 12-1221 | hyderabad   | Telangana     | 522334 | 9182163400  |
++-----------+---------+-------------+---------------+--------+-------------+
+5 rows in set (0.03 sec)
 
-mysql> insert into person(person_id,firstname,lastname,type,contact_id,addressbook_id)values(6,'hariprasad','pillalamarri','schoolmate',6,3);
-Query OK, 1 row affected (0.15 sec)
-
-mysql> select *from person;
-+-----------+------------+--------------+------------+------------+----------------+
-| person_id | firstname  | lastname     | type       | contact_id | addressbook_id |
-+-----------+------------+--------------+------------+------------+----------------+
-|         1 | kalyan     | tanniru      | Friends    |          1 |              1 |
-|         2 | bhargav    | tanniru      | Family     |          2 |              2 |
-|         3 | simran     | tanniru      | relatives  |          3 |              3 |
-|         4 | jahan      | shaik        | profession |          4 |              1 |
-|         5 | saniya     | shaik        | classmate  |          5 |              2 |
-|         6 | hariprasad | pillalamarri | schoolmate |          6 |              3 |
-+-----------+------------+--------------+------------+------------+----------------+
-6 rows in set (0.03 sec)
-
-mysql> describe address;
-+------------+---------------+------+-----+---------+-------+
-| Field      | Type          | Null | Key | Default | Extra |
-+------------+---------------+------+-----+---------+-------+
-| address_id | decimal(10,0) | NO   | PRI | NULL    |       |
-| address    | varchar(150)  | NO   |     | NULL    |       |
-| city_id    | decimal(10,0) | YES  |     | NULL    |       |
-| state_id   | decimal(10,0) | YES  |     | NULL    |       |
-| contact_id | decimal(10,0) | YES  |     | NULL    |       |
-+------------+---------------+------+-----+---------+-------+
-5 rows in set (0.13 sec)
-
-mysql> insert into address(address_id,address,city_id,state_id,contact_id)values(1,'12-1234/1',1,1,1);
-Query OK, 1 row affected (0.17 sec)
-
-mysql> insert into address(address_id,address,city_id,state_id,contact_id)values(2,'12-1243',2,2,2);
-Query OK, 1 row affected (0.14 sec)
-
-mysql> select * from address;
-+------------+-----------+---------+----------+------------+
-| address_id | address   | city_id | state_id | contact_id |
-+------------+-----------+---------+----------+------------+
-|          1 | 12-1234/1 |       1 |        1 |          1 |
-|          2 | 12-1243   |       2 |        2 |          2 |
-+------------+-----------+---------+----------+------------+
-2 rows in set (0.00 sec)
-
-mysql> insert into address(address_id,address,city_id,state_id,contact_id)values(3,'1243',3,3,3);
-Query OK, 1 row affected (0.07 sec)
-
-mysql> insert into address(address_id,address,city_id,state_id,contact_id)values(4,'2-32',4,4,4);
-Query OK, 1 row affected (0.14 sec)
-
-mysql> insert into address(address_id,address,city_id,state_id,contact_id)values(5,'12-32',5,5,5);
-Query OK, 1 row affected (0.08 sec)
-
-mysql> insert into address(address_id,address,city_id,state_id,contact_id)values(6,'65-454',6,6,6);
-Query OK, 1 row affected (0.11 sec)
-
-mysql> select * from address;
-+------------+-----------+---------+----------+------------+
-| address_id | address   | city_id | state_id | contact_id |
-+------------+-----------+---------+----------+------------+
-|          1 | 12-1234/1 |       1 |        1 |          1 |
-|          2 | 12-1243   |       2 |        2 |          2 |
-|          3 | 1243      |       3 |        3 |          3 |
-|          4 | 2-32      |       4 |        4 |          4 |
-|          5 | 12-32     |       5 |        5 |          5 |
-|          6 | 65-454    |       6 |        6 |          6 |
-+------------+-----------+---------+----------+------------+
-6 rows in set (0.00 sec)
-
-mysql>  select person.firstname,person.lastname,person.type,address.address,city.city_name,phone.phone,state.state_name,addressbook_type.addressbook from person inner join  contact on person.contact_id = contact.contact_id
-    -> inner join address on address.contact_id = contact.contact_id
-    ->  inner join state on state.state_id = address.state_id
-    -> inner join addressbook_type on addressbook_type.addressbook_id = person.addressbook_id
-    -> inner join phone on phone.contact_id = contact.contact_id
-    -> inner join city on city.city_id = address.city_id;
-+------------+--------------+------------+-----------+------------+------------+---------------+--------------+
-| firstname  | lastname     | type       | address   | city_name  | phone      | state_name    | addressbook  |
-+------------+--------------+------------+-----------+------------+------------+---------------+--------------+
-| kalyan     | tanniru      | Friends    | 12-1234/1 | guntur     | 9182169100 | Andhrapradesh | addressbook1 |
-| bhargav    | tanniru      | Family     | 12-1243   | hyderabad  | 9642502811 | telangana     | addressbook2 |
-| simran     | tanniru      | relatives  | 1243      | trivandram | 9642502451 | tamilnadu     | addressbook3 |
-| jahan      | shaik        | profession | 2-32      | kochi      | 9934250245 | kerala        | addressbook1 |
-| saniya     | shaik        | classmate  | 12-32     | thane      | 9934257655 | maharashtra   | addressbook2 |
-| hariprasad | pillalamarri | schoolmate | 65-454    | mysore     | 9934287732 | karnataka     | addressbook3 |
-+------------+--------------+------------+-----------+------------+------------+---------------+--------------+
-6 rows in set (0.10 sec)
-
-mysql> #UC13:Ensure all retrieve queries done especially in UC 6, UC 7, UC 8 and UC 10 are working with new table structure.
-mysql> #Uc6
-mysql> select person.firstname,person.lastname,person.type,address.address,city.city_name,phone.phone,state.state_name,addressbook_type.addressbook from person inner join  contact on person.contact_id = contact.contact_id
-    -> inner join address on address.contact_id = contact.contact_id
-    ->  inner join state on state.state_id = address.state_id
-    -> inner join addressbook_type on addressbook_type.addressbook_id = person.addressbook_id
-    ->  inner join phone on phone.contact_id = contact.contact_id
-    ->  inner join city on city.city_id = address.city_id
-    -> where city.city_name ='hyderabad' or state .state_name ='telangana';
-+-----------+----------+--------+---------+-----------+------------+------------+--------------+
-| firstname | lastname | type   | address | city_name | phone      | state_name | addressbook  |
-+-----------+----------+--------+---------+-----------+------------+------------+--------------+
-| bhargav   | tanniru  | Family | 12-1243 | hyderabad | 9642502811 | telangana  | addressbook2 |
-+-----------+----------+--------+---------+-----------+------------+------------+--------------+
+mysql> select person.first_name, person_details.city from person INNER JOIN person_details on person.person_id=person_details.person_id where person_details.city='guntur';
++------------+--------+
+| first_name | city   |
++------------+--------+
+| tanniru    | guntur |
++------------+--------+
 1 row in set (0.00 sec)
 
-mysql> #UC7:
-mysql> select state.state_name,count(state.state_name) from state inner join  address on state.state_id = address.state_id
-    -> group by state.state_name;
-+---------------+-------------------------+
-| state_name    | count(state.state_name) |
-+---------------+-------------------------+
-| Andhrapradesh |                       1 |
-| telangana     |                       1 |
-| tamilnadu     |                       1 |
-| kerala        |                       1 |
-| maharashtra   |                       1 |
-| karnataka     |                       1 |
-+---------------+-------------------------+
-6 rows in set (0.05 sec)
+mysql> select state,COUNT(state) from person_details group by state;
++---------------+--------------+
+| state         | COUNT(state) |
++---------------+--------------+
+| Andhrapradesh |            1 |
+| Tamilnadu     |            1 |
+| Karnataka     |            1 |
+| Kerala        |            1 |
+| Telangana     |            1 |
++---------------+--------------+
+5 rows in set (0.00 sec)
 
-mysql> select city.city_name,count(city.city_name) from city inner join  address on city.city_id = address.city_id
-    -> group by city.city_name;
-+------------+-----------------------+
-| city_name  | count(city.city_name) |
-+------------+-----------------------+
-| guntur     |                     1 |
-| hyderabad  |                     1 |
-| trivandram |                     1 |
-| kochi      |                     1 |
-| thane      |                     1 |
-| mysore     |                     1 |
-+------------+-----------------------+
-6 rows in set (0.00 sec)
-
-mysql> #UC8
-mysql> select person.firstname,person.lastname,person.type,address.address,city.city_name,phone.phone,state.state_name,addressbook_type.addressbook from person inner join  contact on person.contact_id = contact.contact_id
-    -> inner join address on address.contact_id = contact.contact_id
-    -> inner join addressbook_type on addressbook_type.addressbook_id = person.addressbook_id
-    -> inner join phone on phone.contact_id = contact.contact_id
-    ->  inner join city on city.city_id = address.city_id
-    -> inner join state on state.state_id = address.state_id
-    -> where city.city_name = 'hyderabad' order by person.firstname;
-+-----------+----------+--------+---------+-----------+------------+------------+--------------+
-| firstname | lastname | type   | address | city_name | phone      | state_name | addressbook  |
-+-----------+----------+--------+---------+-----------+------------+------------+--------------+
-| bhargav   | tanniru  | Family | 12-1243 | hyderabad | 9642502811 | telangana  | addressbook2 |
-+-----------+----------+--------+---------+-----------+------------+------------+--------------+
-1 row in set (0.03 sec)
-
-mysql> UC10:
-    -> select person.type,count(person.type) from person inner join  contact on person.contact_id = contact.contact_id
-    ->  group by person.type;
-
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group by person.type' at line 1
-mysql> select person.type,count(person.type) from person inner join  contact on person.contact_id = contact.contact_id
-    ->  group by person.type;
-+------------+--------------------+
-| type       | count(person.type) |
-+------------+--------------------+
-| Friends    |                  1 |
-| Family     |                  1 |
-| relatives  |                  1 |
-| profession |                  1 |
-| classmate  |                  1 |
-| schoolmate |                  1 |
-+------------+--------------------+
-6 rows in set (0.00 sec)
+mysql>  select type_id, COUNT(type_id) from person_type group by type_id;
++---------+----------------+
+| type_id | COUNT(type_id) |
++---------+----------------+
+|       1 |              2 |
+|       2 |              2 |
+|       3 |              3 |
++---------+----------------+
+3 rows in set (0.02 sec)
